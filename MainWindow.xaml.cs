@@ -29,49 +29,117 @@ namespace UsersFile
             UpdateStatusBar("Ready");
             
             // Set default dark theme
-            SetDarkTheme(null, null);
+            SetDarkTheme(this, new RoutedEventArgs());
         }
 
         // ==================== THEME FUNCTIONS ====================
         
         private void SetDarkTheme(object sender, RoutedEventArgs e)
         {
-            Editor.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-            Editor.Foreground = new SolidColorBrush(Color.FromRgb(212, 212, 212));
-            Editor.CaretBrush = Brushes.White;
-            Editor.Effect = null;
-            this.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-            this.AllowsTransparency = false;
-            this.WindowStyle = WindowStyle.SingleBorderWindow;
-            UpdateStatusBar("Dark theme applied");
+            try
+            {
+                // Editor colors
+                Editor.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+                Editor.Foreground = new SolidColorBrush(Color.FromRgb(212, 212, 212));
+                Editor.CaretBrush = Brushes.White;
+                Editor.Effect = null;
+                
+                // Window background
+                this.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+                this.AllowsTransparency = false;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                
+                // Update ALL sidebar controls recursively
+                UpdateControlColors(this, new SolidColorBrush(Color.FromRgb(30, 30, 30)), Brushes.White);
+                
+                UpdateStatusBar("Dark theme applied");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Theme error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void SetLightTheme(object sender, RoutedEventArgs e)
         {
-            Editor.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            Editor.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            Editor.CaretBrush = Brushes.Black;
-            Editor.Effect = null;
-            this.Background = new SolidColorBrush(Color.FromRgb(240, 240, 240));
-            this.AllowsTransparency = false;
-            this.WindowStyle = WindowStyle.SingleBorderWindow;
-            UpdateStatusBar("Light theme applied");
+            try
+            {
+                // Editor colors
+                Editor.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                Editor.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                Editor.CaretBrush = Brushes.Black;
+                Editor.Effect = null;
+                
+                // Window background
+                this.Background = new SolidColorBrush(Color.FromRgb(240, 240, 240));
+                this.AllowsTransparency = false;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                
+                // Update ALL sidebar controls recursively
+                UpdateControlColors(this, new SolidColorBrush(Color.FromRgb(240, 240, 240)), Brushes.Black);
+                
+                UpdateStatusBar("Light theme applied");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Theme error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void SetBlurTheme(object sender, RoutedEventArgs e)
         {
-            // Make editor transparent with blur effect
-            Editor.Background = Brushes.Transparent;
-            Editor.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            Editor.CaretBrush = Brushes.White;
-            Editor.Effect = new BlurEffect { Radius = 6 };
-            
-            // Make window transparent to see wallpaper
-            this.Background = Brushes.Transparent;
-            this.AllowsTransparency = true;
-            this.WindowStyle = WindowStyle.None;
-            
-            UpdateStatusBar("✨ Blur theme applied - Your wallpaper is visible behind!");
+            try
+            {
+                // Make editor transparent with blur effect
+                Editor.Background = Brushes.Transparent;
+                Editor.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                Editor.CaretBrush = Brushes.White;
+                Editor.Effect = new BlurEffect { Radius = 6 };
+                
+                // Make window transparent to see wallpaper
+                this.Background = Brushes.Transparent;
+                this.AllowsTransparency = true;
+                this.WindowStyle = WindowStyle.None;
+                
+                UpdateStatusBar("✨ Blur theme applied - Your wallpaper is visible behind!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Blur theme error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        // Helper method to recursively update all controls in the window
+        private void UpdateControlColors(DependencyObject parent, SolidColorBrush background, SolidColorBrush foreground)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                
+                // Update Button, Label, TextBlock, etc.
+                if (child is Control control && child.GetType() != typeof(TextBox))
+                {
+                    try
+                    {
+                        control.Background = background;
+                        control.Foreground = foreground;
+                    }
+                    catch { } // Some controls may not have these properties
+                }
+                
+                if (child is TextBlock textBlock)
+                {
+                    textBlock.Foreground = foreground;
+                }
+                
+                if (child is Border border)
+                {
+                    border.Background = background;
+                }
+                
+                // Recursively process children
+                UpdateControlColors(child, background, foreground);
+            }
         }
 
         // ==================== FILE OPERATIONS ====================
@@ -152,7 +220,7 @@ namespace UsersFile
             if (!isTextChanged) return true;
             var result = MessageBox.Show("Save changes?", "Unsaved Changes", 
                                         MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes) SaveFile_Click(null, null);
+            if (result == MessageBoxResult.Yes) SaveFile_Click(null, new RoutedEventArgs());
             return result != MessageBoxResult.Cancel;
         }
 
@@ -222,29 +290,65 @@ namespace UsersFile
         
         private void WordWrapToggle_Click(object sender, RoutedEventArgs e)
         {
-            Editor.TextWrapping = WordWrapCheckbox.IsChecked == true ? TextWrapping.Wrap : TextWrapping.NoWrap;
-            UpdateStatusBar($"Word wrap {(WordWrapCheckbox.IsChecked == true ? "enabled" : "disabled")}");
+            if (WordWrapCheckbox != null)
+                Editor.TextWrapping = WordWrapCheckbox.IsChecked == true ? TextWrapping.Wrap : TextWrapping.NoWrap;
+            else
+                Editor.TextWrapping = TextWrapping.Wrap;
+            UpdateStatusBar($"Word wrap {(WordWrapCheckbox != null && WordWrapCheckbox.IsChecked == true ? "enabled" : "disabled")}");
         }
 
         private void LineNumbersToggle_Click(object sender, RoutedEventArgs e)
         {
-            showLineNumbers = LineNumbersCheckbox.IsChecked == true;
+            showLineNumbers = LineNumbersCheckbox != null && LineNumbersCheckbox.IsChecked == true;
             UpdateLineNumbers();
         }
 
         private void UpdateLineNumbers()
         {
-            if (showLineNumbers)
+            if (showLineNumbers && LineNumbers != null && LineNumbersColumn != null)
             {
                 var lines = new StringBuilder();
                 for (int i = 1; i <= Editor.LineCount; i++) lines.AppendLine(i.ToString());
                 LineNumbers.Text = lines.ToString();
                 LineNumbersColumn.Width = new GridLength(60);
             }
-            else
+            else if (LineNumbersColumn != null)
             {
                 LineNumbersColumn.Width = new GridLength(0);
             }
+        }
+
+        private void StatusBarToggle_Click(object sender, RoutedEventArgs e)
+        {
+            if (StatusBarCheckbox != null && StatusBar != null)
+            {
+                StatusBar.Visibility = StatusBarCheckbox.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+                UpdateStatusBar($"Status bar {(StatusBarCheckbox.IsChecked == true ? "shown" : "hidden")}");
+            }
+        }
+
+        private void ZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            currentFontSize = Math.Min(currentFontSize + 2, 30);
+            Editor.FontSize = currentFontSize;
+            if (LineNumbers != null) LineNumbers.FontSize = currentFontSize;
+            UpdateStatusBar($"Zoom In - Font size: {currentFontSize}");
+        }
+
+        private void ZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            currentFontSize = Math.Max(currentFontSize - 2, 8);
+            Editor.FontSize = currentFontSize;
+            if (LineNumbers != null) LineNumbers.FontSize = currentFontSize;
+            UpdateStatusBar($"Zoom Out - Font size: {currentFontSize}");
+        }
+
+        private void ResetZoom_Click(object sender, RoutedEventArgs e)
+        {
+            currentFontSize = 13;
+            Editor.FontSize = currentFontSize;
+            if (LineNumbers != null) LineNumbers.FontSize = currentFontSize;
+            UpdateStatusBar($"Zoom reset to default (13)");
         }
 
         // ==================== SETTINGS ====================
@@ -256,7 +360,7 @@ namespace UsersFile
             {
                 currentFontSize = settings.FontSize;
                 Editor.FontSize = currentFontSize;
-                LineNumbers.FontSize = currentFontSize;
+                if (LineNumbers != null) LineNumbers.FontSize = currentFontSize;
                 UpdateStatusBar($"Font size changed to {currentFontSize}");
             }
         }
@@ -275,7 +379,8 @@ namespace UsersFile
         {
             var line = Editor.GetLineIndexFromCharacterIndex(Editor.CaretIndex);
             var col = Editor.CaretIndex - Editor.GetCharacterIndexFromLineIndex(line);
-            CursorPosition.Text = $"Ln {line + 1}, Col {col + 1}";
+            if (CursorPosition != null)
+                CursorPosition.Text = $"Ln {line + 1}, Col {col + 1}";
         }
 
         private void Editor_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -292,15 +397,15 @@ namespace UsersFile
             {
                 switch (e.Key)
                 {
-                    case Key.S: SaveFile_Click(null, null); e.Handled = true; break;
-                    case Key.O: OpenFile_Click(null, null); e.Handled = true; break;
-                    case Key.N: NewFile_Click(null, null); e.Handled = true; break;
-                    case Key.Z: Undo_Click(null, null); e.Handled = true; break;
-                    case Key.Y: Redo_Click(null, null); e.Handled = true; break;
-                    case Key.X: Cut_Click(null, null); e.Handled = true; break;
-                    case Key.C: Copy_Click(null, null); e.Handled = true; break;
-                    case Key.V: Paste_Click(null, null); e.Handled = true; break;
-                    case Key.A: SelectAll_Click(null, null); e.Handled = true; break;
+                    case Key.S: SaveFile_Click(sender, e); e.Handled = true; break;
+                    case Key.O: OpenFile_Click(sender, e); e.Handled = true; break;
+                    case Key.N: NewFile_Click(sender, e); e.Handled = true; break;
+                    case Key.Z: Undo_Click(sender, e); e.Handled = true; break;
+                    case Key.Y: Redo_Click(sender, e); e.Handled = true; break;
+                    case Key.X: Cut_Click(sender, e); e.Handled = true; break;
+                    case Key.C: Copy_Click(sender, e); e.Handled = true; break;
+                    case Key.V: Paste_Click(sender, e); e.Handled = true; break;
+                    case Key.A: SelectAll_Click(sender, e); e.Handled = true; break;
                 }
             }
         }
@@ -310,10 +415,13 @@ namespace UsersFile
         private void UpdateTitle()
         {
             var name = string.IsNullOrEmpty(currentFilePath) ? "Untitled" : Path.GetFileName(currentFilePath);
-            Title = $"{name}{(isTextChanged ? "*" : "")} - UsersFile";
-            FileNameDisplay.Text = name;
-            FileStatus.Text = isTextChanged ? "● Unsaved" : "● Saved";
-            FileStatus.Foreground = isTextChanged ? new SolidColorBrush(Color.FromRgb(255, 184, 108)) : new SolidColorBrush(Color.FromRgb(78, 201, 176));
+            this.Title = $"{name}{(isTextChanged ? "*" : "")} - UsersFile";
+            if (FileNameDisplay != null) FileNameDisplay.Text = name;
+            if (FileStatus != null)
+            {
+                FileStatus.Text = isTextChanged ? "● Unsaved" : "● Saved";
+                FileStatus.Foreground = isTextChanged ? new SolidColorBrush(Color.FromRgb(255, 184, 108)) : new SolidColorBrush(Color.FromRgb(78, 201, 176));
+            }
         }
 
         private void UpdateDocumentStats()
@@ -324,21 +432,24 @@ namespace UsersFile
             var charCount = text.Length;
             var lineCount = Editor.LineCount;
             
-            StatsWords.Text = $"📝 Words: {wordCount:N0}";
-            StatsChars.Text = $"📄 Characters: {charCount:N0}";
-            StatsLines.Text = $"📏 Lines: {lineCount:N0}";
+            if (StatsWords != null) StatsWords.Text = $"📝 Words: {wordCount:N0}";
+            if (StatsChars != null) StatsChars.Text = $"📄 Characters: {charCount:N0}";
+            if (StatsLines != null) StatsLines.Text = $"📏 Lines: {lineCount:N0}";
         }
 
         private void UpdateStatusBar(string message)
         {
             Dispatcher.Invoke(() =>
             {
-                StatusText.Text = message;
-                Task.Delay(3000).ContinueWith(_ => Dispatcher.Invoke(() =>
+                if (StatusText != null)
                 {
-                    if (StatusText.Text == message)
-                        StatusText.Text = "Ready";
-                }));
+                    StatusText.Text = message;
+                    Task.Delay(3000).ContinueWith(_ => Dispatcher.Invoke(() =>
+                    {
+                        if (StatusText != null && StatusText.Text == message)
+                            StatusText.Text = "Ready";
+                    }));
+                }
             });
         }
     }
