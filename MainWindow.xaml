@@ -1,32 +1,27 @@
 <Window x:Class="UsersFile.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="UsersFile - Interactive Notepad" 
+        Title="UsersFile - AI Notepad" 
         Height="700" Width="1200"
         WindowStartupLocation="CenterScreen">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="SidebarColumn" Width="0"/>
+            <ColumnDefinition x:Name="SidebarColumn" Width="250"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition x:Name="AIPanelColumn" Width="0"/>
         </Grid.ColumnDefinitions>
 
-        <!-- SIDEBAR (Column 0) -->
+        <!-- SIDEBAR -->
         <Border Background="#1E1E1E" Grid.Column="0" BorderBrush="#3D3D3D" BorderThickness="0,0,1,0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <TextBlock Text="📝 UsersFile"
-                               Foreground="White"
-                               FontSize="22"
-                               FontWeight="Bold"
-                               Margin="15,20,15,20"
-                               HorizontalAlignment="Center"/>
-
+                    <TextBlock Text="📝 UsersFile" Foreground="#4A9EFF" FontSize="22" FontWeight="Bold" 
+                               Margin="15,20,15,20" HorizontalAlignment="Center"/>
                     <Separator Background="#3D3D3D" Margin="10,0,10,10"/>
 
                     <!-- File Menu -->
-                    <Expander Header="📁 File" Foreground="White" Background="#252525" Margin="5">
+                    <Expander Header="📁 File" Foreground="White" Background="#252525" Margin="5" IsExpanded="True">
                         <StackPanel Margin="20,10">
                             <Button Content="🆕 New" Click="NewFile_Click" Height="35" HorizontalAlignment="Stretch"/>
                             <Button Content="📂 Open" Click="OpenFile_Click" Height="35" HorizontalAlignment="Stretch"/>
@@ -48,8 +43,6 @@
                             <Button Content="📋 Copy" Click="Copy_Click" Height="35" HorizontalAlignment="Stretch"/>
                             <Button Content="📌 Paste" Click="Paste_Click" Height="35" HorizontalAlignment="Stretch"/>
                             <Separator Margin="0,5"/>
-                            <Button Content="🔍 Find" Click="Find_Click" Height="35" HorizontalAlignment="Stretch"/>
-                            <Button Content="🔄 Replace" Click="Replace_Click" Height="35" HorizontalAlignment="Stretch"/>
                             <Button Content="✅ Select All" Click="SelectAll_Click" Height="35" HorizontalAlignment="Stretch"/>
                         </StackPanel>
                     </Expander>
@@ -58,7 +51,7 @@
                     <Expander Header="👁️ View" Foreground="White" Background="#252525" Margin="5">
                         <StackPanel Margin="20,10">
                             <CheckBox Name="WordWrapCheckbox" Content="📏 Word Wrap" Foreground="White" 
-                                      Margin="0,5" Click="WordWrapToggle_Click"/>
+                                      IsChecked="True" Margin="0,5" Click="WordWrapToggle_Click"/>
                             <CheckBox Name="StatusBarCheckbox" Content="📊 Status Bar" Foreground="White" 
                                       IsChecked="True" Margin="0,5" Click="StatusBarToggle_Click"/>
                             <CheckBox Name="LineNumbersCheckbox" Content="🔢 Line Numbers" Foreground="White" 
@@ -66,14 +59,14 @@
                             <Separator Margin="0,5"/>
                             <Button Content="🔍 Zoom In" Click="ZoomIn_Click" Height="35" HorizontalAlignment="Stretch"/>
                             <Button Content="🔍 Zoom Out" Click="ZoomOut_Click" Height="35" HorizontalAlignment="Stretch"/>
-                            <Button Content="🔄 Reset Zoom" Click="ResetZoom_Click" Height="35" HorizontalAlignment="Stretch"/>
+                            <Button Content="🔁 Reset Zoom" Click="ResetZoom_Click" Height="35" HorizontalAlignment="Stretch"/>
                         </StackPanel>
                     </Expander>
 
                     <!-- Format Menu -->
                     <Expander Header="🎨 Format" Foreground="White" Background="#252525" Margin="5">
                         <StackPanel Margin="20,10">
-                            <Button Content="💬 UPPERCASE" Click="ToUpper_Click" Height="35" HorizontalAlignment="Stretch"/>
+                            <Button Content="🔠 UPPERCASE" Click="ToUpper_Click" Height="35" HorizontalAlignment="Stretch"/>
                             <Button Content="🔡 lowercase" Click="ToLower_Click" Height="35" HorizontalAlignment="Stretch"/>
                             <Button Content="📝 Capitalize" Click="Capitalize_Click" Height="35" HorizontalAlignment="Stretch"/>
                             <Separator Margin="0,5"/>
@@ -86,14 +79,9 @@
 
                     <!-- AI Toggle -->
                     <Border Background="#2C3E50" CornerRadius="5" Margin="10">
-                        <CheckBox Name="AiToggle"
-                                  Content="🤖 Enable AI Assistant"
-                                  Foreground="White"
-                                  Margin="10"
-                                  Checked="AiToggle_Checked"
-                                  Unchecked="AiToggle_Unchecked"
-                                  FontWeight="SemiBold"
-                                  FontSize="14"/>
+                        <CheckBox Name="AiToggle" Content="🤖 Enable Gemini AI" Foreground="White" Margin="10"
+                                  Checked="AiToggle_Checked" Unchecked="AiToggle_Unchecked" 
+                                  FontWeight="SemiBold" FontSize="14"/>
                     </Border>
 
                     <!-- Quick Stats -->
@@ -103,130 +91,70 @@
                             <TextBlock Name="StatsWords" Text="Words: 0" Foreground="#AAAAAA" FontSize="11"/>
                             <TextBlock Name="StatsChars" Text="Characters: 0" Foreground="#AAAAAA" FontSize="11"/>
                             <TextBlock Name="StatsLines" Text="Lines: 0" Foreground="#AAAAAA" FontSize="11"/>
-                            <TextBlock Name="StatsParas" Text="Paragraphs: 0" Foreground="#AAAAAA" FontSize="11"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
             </ScrollViewer>
         </Border>
 
-        <!-- MAIN CONTENT AREA (Column 1) -->
+        <!-- MAIN CONTENT -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="25" x:Name="StatusBarRow"/>
+                <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
 
             <!-- TOP BAR -->
             <Border Grid.Row="0" Background="#3D3D3D">
                 <Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Button Content="☰"
-                                Width="40"
-                                Height="30"
-                                Margin="5"
-                                FontSize="18"
-                                Foreground="White"
-                                Background="#4D4D4D"
-                                BorderBrush="#5D5D5D"
-                                Click="ToggleSidebar"
-                                Cursor="Hand"/>
-
-                        <TextBlock Name="FileNameDisplay" 
-                                   Text="Untitled"
-                                   Foreground="White"
-                                   VerticalAlignment="Center"
-                                   Margin="10,0"
-                                   FontSize="14"
-                                   FontWeight="SemiBold"/>
+                        <Button Content="☰" Width="40" Height="30" Margin="5" FontSize="18" Foreground="White" 
+                                Background="#4D4D4D" Click="ToggleSidebar" Cursor="Hand"/>
+                        <TextBlock Name="FileNameDisplay" Text="Untitled" Foreground="White" VerticalAlignment="Center" 
+                                   Margin="10,0" FontSize="14" FontWeight="SemiBold"/>
                     </StackPanel>
-                    
-                    <!-- Quick Actions -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,50,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
                         <Button Content="💾" Width="35" Click="SaveFile_Click" ToolTip="Save" Margin="2"/>
-                        <Button Content="🔍" Width="35" Click="Find_Click" ToolTip="Find" Margin="2"/>
-                        <Button Content="🤖" Width="35" Click="QuickAI_Click" ToolTip="Quick AI" Margin="2"/>
+                        <Button Content="🤖" Width="35" Click="QuickAI_Click" ToolTip="Quick AI" Margin="2" Background="#4A9EFF"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <!-- Editor Area with Line Numbers -->
+            <!-- EDITOR WITH LINE NUMBERS -->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="LineNumbersColumn" Width="Auto"/>
+                    <ColumnDefinition x:Name="LineNumbersColumn" Width="0"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Line Numbers -->
-                <TextBox x:Name="LineNumbers" 
-                         Grid.Column="0"
-                         Width="50"
-                         Background="#F0F0F0"
-                         Foreground="#666"
-                         FontFamily="Consolas"
-                         FontSize="14"
-                         IsReadOnly="True"
-                         TextAlignment="Right"
-                         VerticalScrollBarVisibility="Hidden"
-                         BorderThickness="0"
-                         Padding="5,5,5,0"/>
+                <TextBox x:Name="LineNumbers" Grid.Column="0" Width="50" Background="#F0F0F0" Foreground="#666" 
+                         FontFamily="Consolas" FontSize="14" IsReadOnly="True" TextAlignment="Right" 
+                         VerticalScrollBarVisibility="Hidden" BorderThickness="0" Padding="5"/>
 
-                <!-- Main Text Editor -->
-                <TextBox x:Name="Editor"
-                         Grid.Column="1"
-                         AcceptsReturn="True"
-                         AcceptsTab="True"
-                         VerticalScrollBarVisibility="Auto"
-                         HorizontalScrollBarVisibility="Auto"
-                         TextWrapping="Wrap"
-                         Background="White"
-                         Foreground="Black"
-                         FontFamily="Consolas"
-                         FontSize="14"
-                         SpellCheck.IsEnabled="True"
-                         TextChanged="Editor_TextChanged"
-                         SelectionChanged="Editor_SelectionChanged"
-                         PreviewKeyDown="Editor_PreviewKeyDown"/>
+                <TextBox x:Name="Editor" Grid.Column="1" AcceptsReturn="True" AcceptsTab="True" 
+                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextWrapping="Wrap"
+                         Background="White" Foreground="Black" FontFamily="Consolas" FontSize="14" 
+                         SpellCheck.IsEnabled="True" TextChanged="Editor_TextChanged" SelectionChanged="Editor_SelectionChanged"/>
             </Grid>
 
             <!-- SETTINGS BUTTON -->
-            <Button Content="⚙️"
-                    Width="50"
-                    Height="50"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Margin="20"
-                    Click="OpenSettings"
-                    Cursor="Hand"
-                    FontSize="22"
-                    Background="#4D4D4D"
-                    Foreground="White"
-                    BorderBrush="#5D5D5D"
-                    CornerRadius="25"/>
+            <Button Content="⚙️" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                    Margin="20" Click="OpenSettings" Cursor="Hand" FontSize="22" Background="#4D4D4D" Foreground="White"/>
 
             <!-- STATUS BAR -->
             <Border Grid.Row="2" Background="#2D2D2D" x:Name="StatusBar">
                 <Grid>
-                    <StackPanel Orientation="Horizontal" Margin="5,0">
-                        <TextBlock Name="StatusText" Foreground="#AAAAAA" FontSize="11" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0">
-                        <TextBlock Name="CursorPosition" Foreground="#AAAAAA" FontSize="11" VerticalAlignment="Center" Margin="10,0"/>
-                        <TextBlock Name="ZoomLevel" Foreground="#AAAAAA" FontSize="11" VerticalAlignment="Center"/>
-                    </StackPanel>
+                    <TextBlock Name="StatusText" Foreground="#AAAAAA" FontSize="11" VerticalAlignment="Center" Margin="5,0"/>
+                    <TextBlock Name="CursorPosition" Foreground="#AAAAAA" FontSize="11" VerticalAlignment="Center" 
+                               HorizontalAlignment="Right" Margin="0,0,10,0"/>
                 </Grid>
             </Border>
         </Grid>
 
-        <!-- AI ASSISTANT PANEL (Column 2) -->
-        <Border x:Name="AIPanel" 
-                Grid.Column="2"
-                Background="#F8F9FA" 
-                Width="350" 
-                BorderBrush="#4A9EFF" 
-                BorderThickness="2,0,0,0"
-                Visibility="Collapsed">
+        <!-- AI PANEL -->
+        <Border x:Name="AIPanel" Grid.Column="2" Background="#F8F9FA" Width="350" BorderBrush="#4A9EFF" 
+                BorderThickness="2,0,0,0" Visibility="Collapsed">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -234,25 +162,22 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
-                <!-- AI Header -->
                 <Border Grid.Row="0" Background="#4A9EFF" Padding="10">
                     <StackPanel>
-                        <TextBlock Text="🤖 AI Assistant" FontSize="18" FontWeight="Bold" Foreground="White"/>
-                        <TextBlock Text="Powered by Smart AI" FontSize="11" Foreground="#E0E0E0"/>
+                        <TextBlock Text="🤖 Gemini AI Assistant" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="Powered by Google Gemini" FontSize="10" Foreground="#E0E0E0"/>
                     </StackPanel>
                 </Border>
                 
-                <!-- Chat History -->
                 <ScrollViewer Grid.Row="1" x:Name="ChatScrollViewer" VerticalScrollBarVisibility="Auto" Margin="10">
                     <StackPanel x:Name="ChatHistory">
                         <Border Background="#E3F2FD" CornerRadius="8" Margin="0,5" Padding="10">
-                            <TextBlock Text="👋 Welcome! I'm your AI assistant. Ask me to:\n\n• 'Summarize this text'\n• 'Check grammar'\n• 'Improve my writing'\n• 'Translate to Spanish'\n• 'Make it formal/casual'\n• 'Generate bullet points'\n• 'Explain a concept'" 
+                            <TextBlock Text="👋 Welcome! I'm Gemini AI. Ask me to summarize, check grammar, improve writing, or translate text!" 
                                        Foreground="#333" FontSize="12" TextWrapping="Wrap"/>
                         </Border>
                     </StackPanel>
                 </ScrollViewer>
                 
-                <!-- Input Area -->
                 <Border Grid.Row="2" Background="White" BorderBrush="#DDD" BorderThickness="0,1,0,0" Padding="10">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -260,20 +185,13 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         
-                        <TextBox x:Name="AIQuestion" 
-                                 Height="60" 
-                                 TextWrapping="Wrap" 
-                                 AcceptsReturn="True"
-                                 VerticalScrollBarVisibility="Auto"
-                                 Foreground="Black"
-                                 Background="White"
-                                 FontSize="13"
-                                 ToolTip="Ask me anything..."
-                                 KeyDown="AIQuestion_KeyDown"/>
+                        <TextBox x:Name="AIQuestion" Height="60" TextWrapping="Wrap" AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto" Foreground="Black" Background="White" FontSize="13"
+                                 ToolTip="Ask me anything... (Ctrl+Enter to send)" KeyDown="AIQuestion_KeyDown"/>
                         
                         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                            <Button Content="❌ Clear" Click="ClearAIChat_Click" Background="#E74C3C" Width="70" Margin="0,0,10,0"/>
-                            <Button Content="📤 Send" Click="AskAI_Click" Background="#4A9EFF" Width="70"/>
+                            <Button Content="Clear" Click="ClearAIChat_Click" Background="#E74C3C" Width="70" Margin="0,0,10,0"/>
+                            <Button Content="Send" Click="AskAI_Click" Background="#4A9EFF" Width="70"/>
                         </StackPanel>
                     </Grid>
                 </Border>
