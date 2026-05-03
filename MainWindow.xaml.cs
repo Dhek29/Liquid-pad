@@ -28,7 +28,6 @@ namespace UsersFile
             UpdateDocumentStats();
             UpdateStatusBar("Ready");
             
-            // Set default dark theme
             SetDarkTheme(this, new RoutedEventArgs());
         }
 
@@ -38,19 +37,14 @@ namespace UsersFile
         {
             try
             {
-                // Editor colors
                 Editor.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
                 Editor.Foreground = new SolidColorBrush(Color.FromRgb(212, 212, 212));
                 Editor.CaretBrush = Brushes.White;
                 Editor.Effect = null;
                 
-                // Window background
                 this.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
                 
-                
-                // Update ALL sidebar controls recursively
                 UpdateControlColors(this, new SolidColorBrush(Color.FromRgb(30, 30, 30)), Brushes.White);
-                
                 UpdateStatusBar("Dark theme applied");
             }
             catch (Exception ex)
@@ -63,19 +57,14 @@ namespace UsersFile
         {
             try
             {
-                // Editor colors
                 Editor.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                 Editor.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
                 Editor.CaretBrush = Brushes.Black;
                 Editor.Effect = null;
                 
-                // Window background
                 this.Background = new SolidColorBrush(Color.FromRgb(240, 240, 240));
-            
                 
-                // Update ALL sidebar controls recursively
                 UpdateControlColors(this, new SolidColorBrush(Color.FromRgb(240, 240, 240)), Brushes.Black);
-                
                 UpdateStatusBar("Light theme applied");
             }
             catch (Exception ex)
@@ -88,18 +77,12 @@ namespace UsersFile
         {
             try
             {
-                // Make editor transparent with blur effect
                 Editor.Background = Brushes.Transparent;
                 Editor.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                 Editor.CaretBrush = Brushes.White;
                 Editor.Effect = new BlurEffect { Radius = 6 };
                 
-                // Make window transparent to see wallpaper
-                this.Background = Brushes.Transparent;
-                this.AllowsTransparency = true;
-                this.WindowStyle = WindowStyle.None;
-                
-                UpdateStatusBar("✨ Blur theme applied - Your wallpaper is visible behind!");
+                UpdateStatusBar("✨ Blur theme applied");
             }
             catch (Exception ex)
             {
@@ -107,14 +90,12 @@ namespace UsersFile
             }
         }
 
-        // Helper method to recursively update all controls in the window
         private void UpdateControlColors(DependencyObject parent, SolidColorBrush background, SolidColorBrush foreground)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
                 
-                // Update Button, Label, TextBlock, etc.
                 if (child is Control control && child.GetType() != typeof(TextBox))
                 {
                     try
@@ -122,7 +103,7 @@ namespace UsersFile
                         control.Background = background;
                         control.Foreground = foreground;
                     }
-                    catch { } // Some controls may not have these properties
+                    catch { }
                 }
                 
                 if (child is TextBlock textBlock)
@@ -135,9 +116,24 @@ namespace UsersFile
                     border.Background = background;
                 }
                 
-                // Recursively process children
                 UpdateControlColors(child, background, foreground);
             }
+        }
+
+        // ==================== FIND AND REPLACE ====================
+        
+        private void Find_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new FindReplaceDialog(Editor);
+            dialog.Owner = this;
+            dialog.ShowDialog();
+        }
+
+        private void Replace_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new FindReplaceDialog(Editor);
+            dialog.Owner = this;
+            dialog.ShowDialog();
         }
 
         // ==================== FILE OPERATIONS ====================
@@ -218,7 +214,7 @@ namespace UsersFile
             if (!isTextChanged) return true;
             var result = MessageBox.Show("Save changes?", "Unsaved Changes", 
                                         MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes) SaveFile_Click(null, new RoutedEventArgs());
+            if (result == MessageBoxResult.Yes) SaveFile_Click(this, new RoutedEventArgs());
             return result != MessageBoxResult.Cancel;
         }
 
@@ -404,6 +400,8 @@ namespace UsersFile
                     case Key.C: Copy_Click(sender, e); e.Handled = true; break;
                     case Key.V: Paste_Click(sender, e); e.Handled = true; break;
                     case Key.A: SelectAll_Click(sender, e); e.Handled = true; break;
+                    case Key.F: Find_Click(sender, e); e.Handled = true; break;
+                    case Key.H: Replace_Click(sender, e); e.Handled = true; break;
                 }
             }
         }
@@ -442,7 +440,7 @@ namespace UsersFile
                 if (StatusText != null)
                 {
                     StatusText.Text = message;
-                    Task.Delay(3000).ContinueWith(_ => Dispatcher.Invoke(() =>
+                    System.Threading.Tasks.Task.Delay(3000).ContinueWith(_ => Dispatcher.Invoke(() =>
                     {
                         if (StatusText != null && StatusText.Text == message)
                             StatusText.Text = "Ready";
