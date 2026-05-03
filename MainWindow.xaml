@@ -4,115 +4,79 @@
         Title="UsersFile" 
         Height="700" Width="1100"
         WindowStartupLocation="CenterScreen"
-        Background="#1E1E1E">
-    
-    <Window.Resources>
-        <!-- Sidebar Button Style -->
-        <Style x:Key="SidebarButton" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#CCCCCC"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#3E3E42"/>
-                    <Setter Property="Foreground" Value="#FFFFFF"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        
-        <!-- Icon Button Style -->
-        <Style x:Key="IconButton" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#CCCCCC"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Width" Value="32"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#3E3E42"/>
-                    <Setter Property="Foreground" Value="#FFFFFF"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
+        Background="#1E1E2E">
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="260"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- SIDEBAR -->
-        <Border Grid.Column="0" Background="#252526" BorderBrush="#3E3E42" BorderThickness="0,0,1,0">
+        <Border Grid.Column="0" Background="#1A1A2E" BorderBrush="#2D2D3D" BorderThickness="0,0,1,0">
             <StackPanel>
                 <!-- Header -->
-                <Border Background="#2D2D30" Padding="20,15">
-                    <TextBlock Text="📝 UsersFile" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                <Border Background="#16213E" Height="60" Padding="20">
+                    <TextBlock Text="✍️ UsersFile" FontSize="18" FontWeight="Bold" Foreground="#4ECDC4" VerticalAlignment="Center"/>
                 </Border>
 
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="0,10">
-                        <!-- File Menu -->
-                        <TextBlock Text="FILE" Foreground="#808080" FontSize="10" Margin="20,15,0,5"/>
-                        <Button Content="📄 New" Click="NewFile_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="📂 Open" Click="OpenFile_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="💾 Save" Click="SaveFile_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="📑 Save As" Click="SaveAs_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
+                    <StackPanel Margin="0,15">
+                        <!-- FILE SECTION -->
+                        <TextBlock Text="FILE" Foreground="#6C6C8A" FontSize="10" Margin="20,0,0,10"/>
+                        <Button x:Name="NewBtn" Content="📄 New File" Click="NewFile_Click" Style="{StaticResource NavButton}"/>
+                        <Button x:Name="OpenBtn" Content="📂 Open File" Click="OpenFile_Click" Style="{StaticResource NavButton}"/>
+                        <Button x:Name="SaveBtn" Content="💾 Save File" Click="SaveFile_Click" Style="{StaticResource NavButton}"/>
                         
-                        <Separator Margin="15,10" Background="#3E3E42"/>
+                        <Separator Margin="15,15" Background="#2D2D3D"/>
 
-                        <!-- Edit Menu -->
-                        <TextBlock Text="EDIT" Foreground="#808080" FontSize="10" Margin="20,5,0,5"/>
-                        <Button Content="↩️ Undo" Click="Undo_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="↪️ Redo" Click="Redo_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="✂️ Cut" Click="Cut_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="📋 Copy" Click="Copy_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="📌 Paste" Click="Paste_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="✅ Select All" Click="SelectAll_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Separator Margin="15,10" Background="#3E3E42"/>
-                        <Button Content="🔍 Find" Click="Find_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="🔄 Replace" Click="Replace_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-
-                        <Separator Margin="15,10" Background="#3E3E42"/>
-
-                        <!-- Format Menu -->
-                        <TextBlock Text="FORMAT" Foreground="#808080" FontSize="10" Margin="20,5,0,5"/>
-                        <Button Content="🔠 UPPERCASE" Click="ToUpper_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="🔡 lowercase" Click="ToLower_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Content="📝 Capitalize" Click="Capitalize_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-
-                        <Separator Margin="15,10" Background="#3E3E42"/>
-
-                        <!-- View Menu -->
-                        <TextBlock Text="VIEW" Foreground="#808080" FontSize="10" Margin="20,5,0,5"/>
-                        <CheckBox Name="WordWrapCheckbox" Content="📏 Word Wrap" Foreground="#CCCCCC" Margin="20,5" IsChecked="True" Click="WordWrapToggle_Click"/>
-                        <CheckBox Name="LineNumbersCheckbox" Content="🔢 Line Numbers" Foreground="#CCCCCC" Margin="20,5" Click="LineNumbersToggle_Click"/>
+                        <!-- NAVIGATION SECTION (Top Left Icons) -->
+                        <TextBlock Text="NAVIGATION" Foreground="#6C6C8A" FontSize="10" Margin="20,0,0,10"/>
                         
-                        <Separator Margin="15,10" Background="#3E3E42"/>
+                        <WrapPanel Margin="15,0">
+                            <Button x:Name="UndoBtn" Content="↩️" Click="Undo_Click" Width="45" Height="35" Margin="5" Style="{StaticResource IconButton}" ToolTip="Undo (Ctrl+Z)"/>
+                            <Button x:Name="RedoBtn" Content="↪️" Click="Redo_Click" Width="45" Height="35" Margin="5" Style="{StaticResource IconButton}" ToolTip="Redo (Ctrl+Y)"/>
+                            <Button x:Name="CopyBtn" Content="📋" Click="Copy_Click" Width="45" Height="35" Margin="5" Style="{StaticResource IconButton}" ToolTip="Copy (Ctrl+C)"/>
+                            <Button x:Name="CutBtn" Content="✂️" Click="Cut_Click" Width="45" Height="35" Margin="5" Style="{StaticResource IconButton}" ToolTip="Cut (Ctrl+X)"/>
+                            <Button x:Name="PasteBtn" Content="📌" Click="Paste_Click" Width="45" Height="35" Margin="5" Style="{StaticResource IconButton}" ToolTip="Paste (Ctrl+V)"/>
+                        </WrapPanel>
+
+                        <Separator Margin="15,15" Background="#2D2D3D"/>
+
+                        <!-- FORMAT SECTION -->
+                        <TextBlock Text="FORMAT" Foreground="#6C6C8A" FontSize="10" Margin="20,0,0,10"/>
+                        <Button x:Name="UpperBtn" Content="🔠 UPPERCASE" Click="ToUpper_Click" Style="{StaticResource NavButton}"/>
+                        <Button x:Name="LowerBtn" Content="🔡 lowercase" Click="ToLower_Click" Style="{StaticResource NavButton}"/>
+
+                        <Separator Margin="15,15" Background="#2D2D3D"/>
 
                         <!-- THEME SECTION -->
-                        <TextBlock Text="THEME" Foreground="#808080" FontSize="10" Margin="20,5,0,5"/>
-                        <Button Name="DarkThemeBtn" Content="🌙 Dark" Click="SetDarkTheme" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Name="LightThemeBtn" Content="☀️ Light" Click="SetLightTheme" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
-                        <Button Name="BlurThemeBtn" Content="✨ Blur (See Wallpaper)" Click="SetBlurTheme" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
+                        <TextBlock Text="THEME" Foreground="#6C6C8A" FontSize="10" Margin="20,0,0,10"/>
+                        
+                        <RadioButton x:Name="DarkThemeRadio" Content="🌙 Dark Mode" GroupName="Theme" 
+                                     Margin="20,5" Foreground="#E0E0E0" Checked="DarkTheme_Checked"/>
+                        
+                        <RadioButton x:Name="LightThemeRadio" Content="☀️ Light Mode" GroupName="Theme" 
+                                     Margin="20,5" Foreground="#E0E0E0" Checked="LightTheme_Checked"/>
+                        
+                        <RadioButton x:Name="BlurThemeRadio" Content="✨ Blur Mode (Wallpaper)" GroupName="Theme" 
+                                     Margin="20,5" Foreground="#E0E0E0" Checked="BlurTheme_Checked"/>
 
-                        <Separator Margin="15,10" Background="#3E3E42"/>
+                        <Separator Margin="15,15" Background="#2D2D3D"/>
 
-                        <!-- Statistics -->
-                        <Border Background="#2D2D30" CornerRadius="6" Margin="15,10" Padding="12">
+                        <!-- SETTINGS SECTION -->
+                        <TextBlock Text="SETTINGS" Foreground="#6C6C8A" FontSize="10" Margin="20,0,0,10"/>
+                        <Button x:Name="SettingsBtn" Content="⚙️ Settings" Click="OpenSettings" Style="{StaticResource NavButton}"/>
+
+                        <Separator Margin="15,15" Background="#2D2D3D"/>
+
+                        <!-- STATISTICS -->
+                        <Border Background="#16213E" CornerRadius="10" Margin="15" Padding="12">
                             <StackPanel>
-                                <TextBlock Text="📊 STATISTICS" Foreground="#808080" FontSize="10" Margin="0,0,0,10"/>
-                                <TextBlock x:Name="StatsWords" Text="Words: 0" Foreground="#CCCCCC" FontSize="11" Margin="0,2"/>
-                                <TextBlock x:Name="StatsChars" Text="Characters: 0" Foreground="#CCCCCC" FontSize="11" Margin="0,2"/>
-                                <TextBlock x:Name="StatsLines" Text="Lines: 0" Foreground="#CCCCCC" FontSize="11" Margin="0,2"/>
+                                <TextBlock Text="📊 STATISTICS" Foreground="#6C6C8A" FontSize="10" Margin="0,0,0,10"/>
+                                <TextBlock x:Name="StatsWords" Text="Words: 0" Foreground="#E0E0E0" FontSize="11" Margin="0,3"/>
+                                <TextBlock x:Name="StatsChars" Text="Characters: 0" Foreground="#E0E0E0" FontSize="11" Margin="0,3"/>
+                                <TextBlock x:Name="StatsLines" Text="Lines: 0" Foreground="#E0E0E0" FontSize="11" Margin="0,3"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -120,58 +84,58 @@
             </StackPanel>
         </Border>
 
-        <!-- MAIN EDITOR AREA -->
+        <!-- MAIN CONTENT -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="28"/>
+                <RowDefinition Height="35"/>
             </Grid.RowDefinitions>
 
-            <!-- Top Bar -->
-            <Border Grid.Row="0" Background="#2D2D30" BorderBrush="#3E3E42" BorderThickness="0,0,0,1">
+            <!-- TOP BAR -->
+            <Border Grid.Row="0" Background="#16213E" BorderBrush="#2D2D3D" BorderThickness="0,0,0,1">
                 <Grid>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0">
-                        <TextBlock x:Name="FileNameDisplay" Text="Untitled" FontSize="14" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                        <TextBlock x:Name="FileStatus" Text="● Saved" FontSize="11" Foreground="#4EC9B0" Margin="10,0,0,0"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0">
+                        <TextBlock x:Name="FileNameText" Text="Untitled" FontSize="14" FontWeight="SemiBold" Foreground="#E0E0E0"/>
+                        <TextBlock x:Name="ModifiedIndicator" Text="●" Foreground="#4ECDC4" FontSize="10" Margin="8,0,0,0" Visibility="Collapsed"/>
                     </StackPanel>
                     
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0">
-                        <Button Content="⚙️" Click="OpenSettings" Width="32" Height="32" Style="{StaticResource IconButton}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
+                        <Button x:Name="SearchBtn" Click="Find_Click" Style="{StaticResource TopButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🔍" FontSize="14"/>
+                                <TextBlock Text=" Search" Margin="5,0,0,0" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <!-- Editor with Line Numbers -->
-            <Grid Grid.Row="1" Background="#1E1E1E">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="LineNumbersColumn" Width="0"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <!-- EDITOR -->
+            <TextBox x:Name="Editor" Grid.Row="1"
+                     AcceptsReturn="True"
+                     AcceptsTab="True"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     TextWrapping="Wrap"
+                     Background="#1E1E2E"
+                     Foreground="#E0E0E0"
+                     FontFamily="Consolas"
+                     FontSize="13"
+                     BorderThickness="0"
+                     Padding="20"
+                     CaretBrush="#4ECDC4"
+                     SelectionBrush="#4ECDC4"
+                     SelectionOpacity="0.3"
+                     TextChanged="Editor_TextChanged"
+                     SelectionChanged="Editor_SelectionChanged"
+                     PreviewKeyDown="Editor_PreviewKeyDown"/>
 
-                <!-- Line Numbers -->
-                <TextBox x:Name="LineNumbers" Grid.Column="0" Width="60" Background="#252526" Foreground="#808080" 
-                         FontFamily="Consolas" FontSize="13" IsReadOnly="True" TextAlignment="Right" 
-                         VerticalScrollBarVisibility="Hidden" BorderThickness="0" Padding="10,8"/>
-
-                <!-- Main Text Editor -->
-                <TextBox x:Name="Editor" Grid.Column="1" AcceptsReturn="True" AcceptsTab="True" 
-                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-                         TextWrapping="Wrap" Background="#1E1E1E" Foreground="#D4D4D4" 
-                         FontFamily="Consolas" FontSize="13" BorderThickness="0" Padding="12,8"
-                         CaretBrush="#FFFFFF" SelectionBrush="#264F78"
-                         TextChanged="Editor_TextChanged" SelectionChanged="Editor_SelectionChanged"
-                         PreviewKeyDown="Editor_PreviewKeyDown"/>
-            </Grid>
-
-            <!-- Status Bar -->
-            <Border x:Name="StatusBar" Grid.Row="2" Background="#007ACC">
+            <!-- STATUS BAR -->
+            <Border Grid.Row="2" Background="#16213E" BorderBrush="#2D2D3D" BorderThickness="0,1,0,0">
                 <Grid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0">
-                        <TextBlock x:Name="StatusText" Text="Ready" Foreground="#FFFFFF" FontSize="11"/>
-                        <CheckBox x:Name="StatusBarCheckbox" Content="Show Status Bar" Foreground="#FFFFFF" FontSize="11" Margin="15,0,0,0" IsChecked="True" Click="StatusBarToggle_Click"/>
-                    </StackPanel>
-                    <TextBlock x:Name="CursorPosition" Text="Ln 1, Col 1" Foreground="#FFFFFF" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,12,0"/>
+                    <TextBlock x:Name="StatusText" Text="Ready" Foreground="#6C6C8A" FontSize="11" VerticalAlignment="Center" Margin="20,0"/>
+                    <TextBlock x:Name="CursorText" Text="Ln 1, Col 1" Foreground="#6C6C8A" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0"/>
                 </Grid>
             </Border>
         </Grid>
