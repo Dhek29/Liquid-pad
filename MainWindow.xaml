@@ -77,6 +77,9 @@
                         <Button Content="📋 Copy" Click="Copy_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
                         <Button Content="📌 Paste" Click="Paste_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
                         <Button Content="✅ Select All" Click="SelectAll_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
+                        <Separator Margin="15,10" Background="#3E3E42"/>
+                        <Button Content="🔍 Find" Click="Find_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
+                        <Button Content="🔄 Replace" Click="Replace_Click" Height="32" Margin="15,0" Style="{StaticResource SidebarButton}"/>
 
                         <Separator Margin="15,10" Background="#3E3E42"/>
 
@@ -162,15 +165,15 @@
             </Grid>
 
             <!-- Status Bar -->
-<Border x:Name="StatusBar" Grid.Row="2" Background="#007ACC">
-    <Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0">
-            <TextBlock x:Name="StatusText" Text="Ready" Foreground="#FFFFFF" FontSize="11"/>
-            <CheckBox x:Name="StatusBarCheckbox" Content="Show Status Bar" Foreground="#FFFFFF" FontSize="11" Margin="15,0,0,0" IsChecked="True" Click="StatusBarToggle_Click"/>
-        </StackPanel>
-        <TextBlock x:Name="CursorPosition" Text="Ln 1, Col 1" Foreground="#FFFFFF" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,12,0"/>
-    </Grid>
-</Border>
+            <Border x:Name="StatusBar" Grid.Row="2" Background="#007ACC">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0">
+                        <TextBlock x:Name="StatusText" Text="Ready" Foreground="#FFFFFF" FontSize="11"/>
+                        <CheckBox x:Name="StatusBarCheckbox" Content="Show Status Bar" Foreground="#FFFFFF" FontSize="11" Margin="15,0,0,0" IsChecked="True" Click="StatusBarToggle_Click"/>
+                    </StackPanel>
+                    <TextBlock x:Name="CursorPosition" Text="Ln 1, Col 1" Foreground="#FFFFFF" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,12,0"/>
+                </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Window>
