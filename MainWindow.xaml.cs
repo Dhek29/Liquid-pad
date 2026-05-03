@@ -46,8 +46,7 @@ namespace UsersFile
                 
                 // Window background
                 this.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-                this.AllowsTransparency = false;
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                
                 
                 // Update ALL sidebar controls recursively
                 UpdateControlColors(this, new SolidColorBrush(Color.FromRgb(30, 30, 30)), Brushes.White);
@@ -72,8 +71,7 @@ namespace UsersFile
                 
                 // Window background
                 this.Background = new SolidColorBrush(Color.FromRgb(240, 240, 240));
-                this.AllowsTransparency = false;
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
+            
                 
                 // Update ALL sidebar controls recursively
                 UpdateControlColors(this, new SolidColorBrush(Color.FromRgb(240, 240, 240)), Brushes.Black);
