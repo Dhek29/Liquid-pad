@@ -2,7 +2,7 @@
 
 **A modern, lightweight text editor built with C# and WPF (.NET 8.0)**
 
-LiquidPad is a feature-rich notepad replacement that combines a clean, modern interface with essential editing features. Built with performance and user experience in mind, it offers everything you need for daily text editing tasks.
+LiquidPad is a feature-rich notepad replacement that combines a clean, modern interface with essential editing features. Built with performance and user experience in mind, it offers everything you need for daily text editing tasks. It is inspired by MacOs while keeping Windows elements in mind.
 
 ![LiquidPad Screenshot](screenshot.png)
 
