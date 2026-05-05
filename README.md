@@ -27,5 +27,4 @@ LiquidPad is a minimalistic, beautiful text editor built with Python and Tkinter
 
 ### Prerequisites
 - Python 3.7 or higher (with Tkinter — included by default)
-- 
 
