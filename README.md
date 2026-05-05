@@ -85,6 +85,7 @@ Icons included (🐍 Python, 🌐 HTML, 🎨 CSS, etc.)
 
 -----------------------------------------------------------------------------------
 🔄 Smart Features
+
 💾 Session Recovery
 Auto-save every 30 seconds
 Restore unsaved work after crash
@@ -96,6 +97,8 @@ Window size & position
 
 🧹 Smart Cleanup
 Auto-deletes recovery files after saving
+
+-------------------------------------------------------------------------------------
 ---
 
 ## 🚀 Quick Start
