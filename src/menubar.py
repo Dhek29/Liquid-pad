@@ -6,6 +6,7 @@ Creates all menus and keyboard shortcuts.
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import os
+from findreplace import FindReplace
 
 
 class MenuBar:
@@ -19,6 +20,7 @@ class MenuBar:
         self.current_file = None
         self.themes = {}
         self.current_theme_name = "glass"
+        self.find_replace = None
         
     def setup(self, themes, theme_name):
         """Set themes and build menus."""
@@ -26,17 +28,22 @@ class MenuBar:
         self.current_theme_name = theme_name
         self._create_menus()
         self._bind_keys()
+        # Initialize Find & Replace
+        self.find_replace = FindReplace(self.root, self.editor)
     
     def rebuild(self, theme_name):
         """Rebuild menus after theme change."""
         self.current_theme_name = theme_name
         self._create_menus()
         self._bind_keys()
+        # Update Find & Replace theme
+        if self.find_replace:
+            self.find_replace.set_theme(self._theme())
     
     def _theme(self):
         """Get current theme safely."""
         return self.themes.get(self.current_theme_name, {
-            "bg": "#1a1a2e", "fg": "#ffffff", "accent": "#333333"
+            "bg": "#1a1a2e", "fg": "#ffffff", "accent": "#333333", "text_bg": "#1e1e3a"
         })
     
     def _create_menus(self):
@@ -83,6 +90,8 @@ class MenuBar:
         edit_menu.add_command(label="Paste", command=self._paste, accelerator="Ctrl+V")
         edit_menu.add_separator()
         edit_menu.add_command(label="Select All", command=self._select_all, accelerator="Ctrl+A")
+        edit_menu.add_separator()
+        edit_menu.add_command(label="Find & Replace", command=self._show_find_replace, accelerator="Ctrl+F")
         
         # === VIEW MENU ===
         view_menu = tk.Menu(menubar, tearoff=0, bg=t["bg"], fg=t["fg"],
@@ -144,6 +153,13 @@ class MenuBar:
         self.root.bind('<Control-s>', lambda e: self._save())
         self.root.bind('<Control-S>', lambda e: self._save_as())
         self.root.bind('<Control-q>', lambda e: self.root.quit())
+        self.root.bind('<Control-f>', lambda e: self._show_find_replace())
+    
+    def _show_find_replace(self):
+        """Show the Find & Replace dialog."""
+        if self.find_replace:
+            self.find_replace.set_theme(self._theme())
+            self.find_replace.show()
     
     # ---- Actions ----
     
@@ -222,7 +238,8 @@ class MenuBar:
         messagebox.showinfo("About LiquidPad",
             "LiquidPad v1.0\n\n"
             "A fluid, transparent notepad.\n"
-            "7 themes | Glass effects | Live stats\n\n"
+            "7 themes | Glass effects | Find & Replace\n"
+            "Live stats | Keyboard shortcuts\n\n"
             "Built with Python & Tkinter")
     
     def _shortcuts(self):
@@ -237,4 +254,5 @@ class MenuBar:
             "Ctrl+X  Cut\n"
             "Ctrl+C  Copy\n"
             "Ctrl+V  Paste\n"
-            "Ctrl+A  Select All")
+            "Ctrl+A  Select All\n"
+            "Ctrl+F  Find & Replace")
