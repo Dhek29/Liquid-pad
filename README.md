@@ -10,8 +10,6 @@ LiquidPad is a minimalistic, beautiful text editor built with Python and Tkinter
 
 ## ✨ Features
 
-🚀 Features
-
 ----------------------------------------------------------------------------
 🎨 UI & Appearance
 
