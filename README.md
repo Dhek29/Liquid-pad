@@ -1,59 +1,39 @@
 # 💧 LiquidPad
 
-**A modern, lightweight text editor built with C# and WPF (.NET 8.0)**
+**A fluid, transparent notepad with stunning glass effects.**
 
-LiquidPad is a feature-rich notepad replacement that combines a clean, modern interface with essential editing features. Built with performance and user experience in mind, it offers everything you need for daily text editing tasks. It is inspired by MacOs while keeping Windows elements in mind.
+LiquidPad is a minimalistic, beautiful text editor built with Python and Tkinter. It features adjustable transparency, multiple themes with glass morphism effects, and live writing statistics — all while being incredibly lightweight (~25MB RAM).
 
-![LiquidPad Screenshot](screenshot.png)
+![LiquidPad Screenshot](assets/screenshots/glass-theme.png)
+
+---
 
 ## ✨ Features
 
-### 📝 Core Editing
-- New, Open, Save, Save As
-- Undo/Redo with full history
-- Cut, Copy, Paste
-- Select All
-- Word wrap support
+- 🪟 **Window Transparency** — Adjustable from 50% to 95% opacity
+- 💎 **Glass Morphism** — Frosted glass effects on select themes
+- 🌈 **7 Beautiful Themes** — Glass Dark, Glass Light, Dark, Light, Midnight, Forest, Ocean
+- 📊 **Live Statistics** — Real-time word and character count
+- 🔤 **Font Control** — 8pt to 24pt sizes
+- ⌨️ **Keyboard Shortcuts** — Full suite for power users
+- 💾 **File Operations** — New, Open, Save, Save As
+- ⚡ **Ultra Lightweight** — ~25MB RAM, instant startup
+- 🎯 **Zero Dependencies** — Pure Python standard library
+- 🖼️ **Custom Icon** — Beautiful taskbar and window icon
 
-### 🎨 Text Transformation
-- Convert to UPPERCASE
-- Convert to lowercase
-- Capitalize each word
+---
 
-### 🖥️ Modern Interface
-- **Retractable Sidebar** - Toggle with click or Tab key
-- **Dark & Light Themes** - Easy on the eyes
-- **Status Bar** - Real-time cursor position
-- **Clean, distraction-free design**
-
-### 📊 Smart Features
-- **Recent Files** - Remembers last 5 opened files
-- **Real-time Statistics** - Words, characters, and line count
-- **Cursor Position** - Line and column tracking
-- **File Modified Indicator** - Visual asterisk when unsaved
-
-### ⚡ Keyboard Shortcuts
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl + N` | New File |
-| `Ctrl + O` | Open File |
-| `Ctrl + S` | Save File |
-| `Ctrl + Z` | Undo |
-| `Ctrl + Y` | Redo |
-| `Ctrl + X` | Cut |
-| `Ctrl + C` | Copy |
-| `Ctrl + V` | Paste |
-| `Ctrl + A` | Select All |
-| `Tab` | Toggle Sidebar |
-
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download) or later
+- Python 3.7 or higher (with Tkinter — included by default)
 
-### Installation
+### Run LiquidPad
 
-Clone the repository:
 ```bash
-git clone https://github.com/yourusername/LiquidPad.git
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/LiquidPad.git
 cd LiquidPad
+
+# Run
+python main.py
