@@ -21,13 +21,11 @@ import tkinter as tk
 
 def set_icon(root):
     """Set the LiquidPad window icon."""
-    # Try multiple possible paths
     base_dir = os.path.dirname(os.path.abspath(__file__))
     icon_paths = [
         os.path.join(base_dir, 'assets', 'icon.ico'),
-        os.path.join(base_dir, '..', 'assets', 'icon.ico'),
     ]
-    
+
     for icon_path in icon_paths:
         if os.path.exists(icon_path):
             try:
@@ -36,7 +34,7 @@ def set_icon(root):
                 return
             except Exception as e:
                 print(f"Failed to load icon: {e}")
-    
+
     print("No icon found - using default")
 
 
@@ -45,6 +43,10 @@ def main():
     root = tk.Tk()
     set_icon(root)
     app = LiquidPad(root)
+
+    root.protocol("WM_DELETE_WINDOW", app.on_close)
+    root.after(100, app.check_session_recovery)
+
     root.mainloop()
 
 
