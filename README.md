@@ -30,14 +30,14 @@ LiquidPad is a minimalistic, beautiful text editor built with Python and Tkinter
 - 
 ## ⌨️ Keyboard Shortcuts
 Shortcut	Action
-Ctrl + N	New file
-Ctrl + O	Open file
-Ctrl + S	Save
-Ctrl + Shift + S	Save As
-Ctrl + Q	Exit
-Ctrl + Z	Undo
-Ctrl + Y	Redo
-Ctrl + X	Cut
-Ctrl + C	Copy
-Ctrl + V	Paste
-Ctrl + A	Select All
+Ctrl + N |	New file
+Ctrl + O |	Open file
+Ctrl + S |	Save
+Ctrl + Shift + S |	Save As
+Ctrl + Q |	Exit
+Ctrl + Z |	Undo
+Ctrl + Y |	Redo
+Ctrl + X |	Cut
+Ctrl + C |	Copy
+Ctrl + V |	Paste
+Ctrl + A |	Select All
