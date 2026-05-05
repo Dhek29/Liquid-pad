@@ -98,7 +98,6 @@ Window size & position
 🧹 Smart Cleanup
 Auto-deletes recovery files after saving
 
--------------------------------------------------------------------------------------
 ---
 
 ## 🚀 Quick Start
