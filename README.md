@@ -100,6 +100,32 @@ Auto-deletes recovery files after saving
 
 ## 🚀 Quick Start
 
+LiquidPad/
+├── main.py                  # Entry point
+├── README.md                # You are here
+├── LICENSE                  # MIT License
+├── SECURITY.md              # Security policy
+├── assets/
+│   └── icon.ico             # App icon
+├── config/                  # Auto-created
+│   ├── liquidpad_config.json
+│   └── .liquidpad_recovery.txt
+└── src/
+    ├── __init__.py          # Version info
+    ├── app.py               # Main application
+    ├── editor.py            # Text editor widget
+    ├── effects.py           # Glass morphism effects
+    ├── exporter.py          # HTML export
+    ├── findreplace.py       # Find & Replace dialog
+    ├── linenumbers.py       # Line number gutter
+    ├── markdownview.py      # Markdown preview
+    ├── menubar.py           # Menu bar & shortcuts
+    ├── session.py           # Auto-save & recovery
+    ├── snippets.py          # Text snippets
+    ├── statusbar.py         # Status bar & file detection
+    ├── tabmanager.py        # Tabbed interface
+    └── themes.py            # 7 theme definitions
+
 ### Prerequisites
 - Python 3.7 or higher (with Tkinter — included by default)
 
